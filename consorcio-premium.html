@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consórcio Imobiliário — Estratégia Patrimonial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C5A059;
+    --gold-light: #D4B778;
+    --gold-dim: #8A6F3A;
+    --gold-pale: #F0DFB0;
+    --carbon: #000000;
+    --graphite: #0D0D0D;
+    --surface: #111111;
+    --surface-2: #181818;
+    --surface-3: #1E1E1E;
+    --border: rgba(197,160,89,0.2);
+    --border-strong: rgba(197,160,89,0.45);
+    --text: #F5F0E8;
+    --text-muted: #9A8F7A;
+    --text-dim: #5C5547;
+    --red-dark: #8B2020;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--carbon);
+    color: var(--text);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  .glimmer {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0; overflow: hidden;
+  }
+  .glimmer span {
+    position: absolute; width: 2px; height: 2px;
+    background: var(--gold); border-radius: 50%;
+    animation: twinkle var(--d, 4s) ease-in-out infinite var(--del, 0s);
+    opacity: 0;
+  }
+  @keyframes twinkle {
+    0%,100%{opacity:0;transform:scale(0.5)}
+    50%{opacity:var(--op,0.6);transform:scale(1)}
+  }
+  .container {
+    position: relative; z-index: 1;
+    max-width: 680px; margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+  .header {
+    text-align: center;
+    padding: 72px 0 52px;
+    position: relative;
+  }
+  .header::before, .header::after {
+    content: '';
+    display: block; width: 60px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 0 auto;
+  }
+  .header::before { margin-bottom: 32px; }
+  .header::after { margin-top: 32px; }
+  .logo-mark {
+    display: flex; align-items: center; justify-content: center;
+    gap: 12px; margin-bottom: 24px;
+  }
+  .logo-line {
+    flex: 1; max-width: 80px; height: 0.5px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim));
+  }
+  .logo-line.r {
+    background: linear-gradient(90deg, var(--gold-dim), transparent);
+  }
+  .logo-diamond {
+    width: 8px; height: 8px;
+    background: var(--gold); transform: rotate(45deg);
+  }
+  .eyebrow {
+    font-family: 'Jost', sans-serif;
+    font-weight: 200; font-size: 10px;
+    letter-spacing: 4px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 16px;
+  }
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300; font-size: clamp(32px,6vw,48px);
+    line-height: 1.1; color: var(--text);
+    letter-spacing: 0.5px;
+  }
+  h1 em {
+    font-style: italic; color: var(--gold-light);
+  }
+  .subtitle {
+    font-weight: 200; font-size: 13px;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--text-muted); margin-top: 12px;
+  }
+  .nav-buttons {
+    display: flex; flex-direction: column; gap: 12px;
+    margin-bottom: 60px;
+  }
+  .nav-btn {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 28px;
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    cursor: pointer;
+    transition: all 0.35s ease;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+  }
+  .nav-btn::before {
+    content: '';
+    position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(197,160,89,0.04), transparent);
+    transition: left 0.5s ease;
+  }
+  .nav-btn:hover::before { left: 100%; }
+  .nav-btn:hover {
+    border-color: var(--border-strong);
+    background: var(--surface-2);
+  }
+  .nav-btn .btn-left {
+    display: flex; align-items: center; gap: 20px;
+  }
+  .btn-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px; font-weight: 400;
+    color: var(--gold-dim); letter-spacing: 1px;
+    min-width: 20px;
+  }
+  .btn-label {
+    font-weight: 300; font-size: 14px;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--text-muted); transition: color 0.35s;
+  }
+  .nav-btn:hover .btn-label { color: var(--text); }
+  .btn-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; font-weight: 400;
+    color: var(--text); line-height: 1.2; margin-top: 3px;
+  }
+  .btn-arrow {
+    color: var(--gold-dim); font-size: 16px;
+    transition: transform 0.35s, color 0.35s;
+  }
+  .nav-btn:hover .btn-arrow {
+    transform: translateX(4px); color: var(--gold);
+  }
+  .outer-frame {
+    border: 0.5px solid var(--border);
+    padding: 1px;
+    margin-bottom: 2px;
+  }
+  .inner-frame {
+    border: 0.5px solid rgba(197,160,89,0.08);
+  }
+  .section {
+    display: none; animation: fadeUp 0.5s ease forwards;
+  }
+  .section.active { display: block; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .section-header {
+    padding: 48px 0 32px;
+    border-bottom: 0.5px solid var(--border);
+    margin-bottom: 32px;
+  }
+  .section-eyebrow {
+    font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 5vw, 38px); font-weight: 300;
+    line-height: 1.15;
+  }
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--text-muted); cursor: pointer;
+    border: none; background: none; padding: 0;
+    transition: color 0.3s; margin-bottom: 0;
+  }
+  .back-btn:hover { color: var(--gold); }
+  .data-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px; margin-bottom: 32px;
+  }
+  .data-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    padding: 20px 22px;
+  }
+  .data-label {
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--text-dim); margin-bottom: 8px;
+  }
+  .data-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 400; color: var(--text);
+  }
+  .data-value.gold { color: var(--gold-light); }
+  .highlight-box {
+    background: transparent;
+    border: 0.5px solid var(--border-strong);
+    padding: 28px 32px;
+    margin: 24px 0;
+    position: relative;
+  }
+  .highlight-box::before {
+    content: '';
+    position: absolute; top: 4px; left: 4px; right: 4px; bottom: 4px;
+    border: 0.5px solid rgba(197,160,89,0.08);
+    pointer-events: none;
+  }
+  .highlight-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; font-style: italic; font-weight: 300;
+    color: var(--gold-light); line-height: 1.6; text-align: center;
+  }
+  .comparison-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 16px; margin: 28px 0;
+  }
+  .comp-card {
+    background: var(--surface); border: 0.5px solid var(--border);
+    padding: 24px;
+  }
+  .comp-title {
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--text-dim); margin-bottom: 16px;
+  }
+  .comp-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    margin-bottom: 10px; font-size: 13px; line-height: 1.4;
+    color: var(--text-muted);
+  }
+  .comp-icon { font-size: 12px; margin-top: 1px; flex-shrink: 0; }
+  .comp-icon.ok { color: #7BAA5A; }
+  .comp-icon.no { color: var(--red-dark); }
+  .table-wrap {
+    overflow-x: auto; margin: 24px 0;
+    border: 0.5px solid var(--border);
+  }
+  table {
+    width: 100%; border-collapse: collapse;
+    font-size: 12px;
+  }
+  th {
+    font-weight: 300; font-size: 10px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--gold);
+    padding: 14px 16px; text-align: left;
+    border-bottom: 0.5px solid var(--border);
+    background: var(--surface-2);
+  }
+  td {
+    padding: 13px 16px; color: var(--text-muted);
+    border-bottom: 0.5px solid rgba(197,160,89,0.07);
+  }
+  tr:last-child td { border-bottom: none; }
+  tr.highlight-row td { color: var(--gold-light); background: rgba(197,160,89,0.05); }
+  .economy-block {
+    background: var(--surface-2);
+    border: 0.5px solid var(--border-strong);
+    padding: 32px; text-align: center;
+    margin: 24px 0;
+  }
+  .economy-label {
+    font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--text-dim); margin-bottom: 12px;
+  }
+  .economy-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(32px,7vw,52px); font-weight: 300;
+    color: var(--gold-light); margin-bottom: 8px;
+  }
+  .economy-pct {
+    font-size: 13px; letter-spacing: 2px;
+    color: var(--text-muted);
+  }
+  .chart-wrap {
+    margin: 28px 0;
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    padding: 24px;
+  }
+  .chart-legend {
+    display: flex; gap: 24px; margin-bottom: 16px;
+  }
+  .legend-item {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .legend-dot {
+    width: 24px; height: 2px; border-radius: 1px;
+  }
+  .dashboard-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 12px; margin: 24px 0;
+  }
+  .dash-card {
+    background: var(--surface); border: 0.5px solid var(--border);
+    padding: 20px 22px;
+  }
+  .dash-label {
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--text-dim); margin-bottom: 8px;
+  }
+  .dash-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; color: var(--text);
+  }
+  .dash-value.green { color: #7BAA5A; }
+  .dash-value.gold { color: var(--gold-light); }
+  .pros-cons-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 16px; margin: 24px 0;
+  }
+  .result-big {
+    background: var(--surface-2); border: 0.5px solid var(--border-strong);
+    padding: 36px; text-align: center; margin: 24px 0;
+  }
+  .result-big .economy-label { margin-bottom: 6px; }
+  .result-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px,5vw,40px); font-weight: 300;
+    color: var(--gold-light);
+    display: block; margin-bottom: 4px;
+  }
+  .timeline {
+    position: relative; margin: 32px 0;
+    padding-left: 32px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute; left: 8px; top: 0; bottom: 0;
+    width: 0.5px; background: linear-gradient(to bottom, var(--gold), var(--gold-dim), transparent);
+  }
+  .timeline-phase {
+    position: relative; margin-bottom: 40px;
+  }
+  .timeline-phase::before {
+    content: '';
+    position: absolute; left: -28px; top: 4px;
+    width: 8px; height: 8px;
+    border: 0.5px solid var(--gold); background: var(--carbon);
+    transform: rotate(45deg);
+  }
+  .phase-tag {
+    font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 8px;
+  }
+  .phase-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 400;
+    color: var(--text); margin-bottom: 14px;
+  }
+  .phase-items {
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .phase-item {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; color: var(--text-muted);
+  }
+  .phase-bullet {
+    width: 4px; height: 4px; border-radius: 50%;
+    background: var(--gold-dim); flex-shrink: 0;
+  }
+  .footer {
+    text-align: center; padding: 48px 0;
+    border-top: 0.5px solid var(--border);
+    margin-top: 60px;
+  }
+  .footer-mark {
+    display: flex; align-items: center; justify-content: center;
+    gap: 16px; margin-bottom: 16px;
+  }
+  .footer-line {
+    width: 40px; height: 0.5px;
+    background: var(--gold-dim);
+  }
+  .footer-text {
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  @media (max-width: 540px) {
+    .data-grid, .comparison-grid, .dashboard-grid, .pros-cons-grid {
+      grid-template-columns: 1fr;
+    }
+    .chart-legend { flex-direction: column; gap: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="glimmer" id="glimmer"></div>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header" id="home">
+    <div class="logo-mark">
+      <div class="logo-line"></div>
+      <div class="logo-diamond"></div>
+      <div class="logo-line r"></div>
+    </div>
+    <p class="eyebrow">Inteligência Patrimonial · Wealth Management</p>
+    <h1>Consórcio <em>Imobiliário</em><br>de Alto Padrão</h1>
+    <p class="subtitle">Material Estratégico — Uso Exclusivo</p>
+  </div>
+
+  <!-- NAVIGATION -->
+  <div class="nav-buttons" id="nav">
+    <div class="outer-frame">
+      <div class="inner-frame">
+        <div class="nav-btn" onclick="openSection('s1')">
+          <div class="btn-left">
+            <span class="btn-num">I</span>
+            <div>
+              <div class="btn-label">Estrutura da Operação</div>
+              <div class="btn-title">Entenda o Consórcio</div>
+            </div>
+          </div>
+          <span class="btn-arrow">→</span>
+        </div>
+      </div>
+    </div>
+    <div class="outer-frame">
+      <div class="inner-frame">
+        <div class="nav-btn" onclick="openSection('s2')">
+          <div class="btn-left">
+            <span class="btn-num">II</span>
+            <div>
+              <div class="btn-label">Análise Comparativa</div>
+              <div class="btn-title">Financiamento SAC vs Consórcio</div>
+            </div>
+          </div>
+          <span class="btn-arrow">→</span>
+        </div>
+      </div>
+    </div>
+    <div class="outer-frame">
+      <div class="inner-frame">
+        <div class="nav-btn" onclick="openSection('s3')">
+          <div class="btn-left">
+            <span class="btn-num">III</span>
+            <div>
+              <div class="btn-label">Estratégia Financeira</div>
+              <div class="btn-title">Custo de Oportunidade</div>
+            </div>
+          </div>
+          <span class="btn-arrow">→</span>
+        </div>
+      </div>
+    </div>
+    <div class="outer-frame">
+      <div class="inner-frame">
+        <div class="nav-btn" onclick="openSection('s4')">
+          <div class="btn-left">
+            <span class="btn-num">IV</span>
+            <div>
+              <div class="btn-label">Preservação de Capital</div>
+              <div class="btn-title">Compra à Vista vs Consórcio</div>
+            </div>
+          </div>
+          <span class="btn-arrow">→</span>
+        </div>
+      </div>
+    </div>
+    <div class="outer-frame">
+      <div class="inner-frame">
+        <div class="nav-btn" onclick="openSection('s5')">
+          <div class="btn-left">
+            <span class="btn-num">V</span>
+            <div>
+              <div class="btn-label">Planejamento Patrimonial</div>
+              <div class="btn-title">Estratégias Inteligentes</div>
+            </div>
+          </div>
+          <span class="btn-arrow">→</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section" id="s1">
+    <button class="back-btn" onclick="closeSection('s1')">← Voltar</button>
+    <div class="section-header">
+      <p class="section-eyebrow">I · Estrutura da Operação</p>
+      <h2 class="section-title">Entenda o<br><em style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gold-light)">Consórcio</em></h2>
+    </div>
+    <div class="data-grid">
+      <div class="data-card">
+        <div class="data-label">Crédito Contratado</div>
+        <div class="data-value gold">R$ 1.025.442</div>
+      </div>
+      <div class="data-card">
+        <div class="data-label">Prazo Total</div>
+        <div class="data-value">210 meses</div>
+      </div>
+      <div class="data-card">
+        <div class="data-label">Contemplação Estimada</div>
+        <div class="data-value">60 meses</div>
+      </div>
+      <div class="data-card">
+        <div class="data-label">Taxa Administrativa</div>
+        <div class="data-value">17,85%</div>
+      </div>
+      <div class="data-card" style="grid-column: span 2">
+        <div class="data-label">1ª Parcela</div>
+        <div class="data-value gold">R$ 2.889,69</div>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <p class="highlight-text">"Planejamento patrimonial com<br>baixo custo financeiro."</p>
+    </div>
+    <div style="margin-top:28px;padding:24px;background:var(--surface);border:0.5px solid var(--border)">
+      <p style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:12px">O que é o consórcio</p>
+      <p style="font-size:14px;color:var(--text-muted);line-height:1.8">Uma modalidade de compra coletiva onde um grupo de pessoas contribui mensalmente para formar um fundo comum. Os participantes são contemplados por lance ou sorteio, recebendo a carta de crédito no valor acordado — sem incidência de juros sobre o crédito.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section" id="s2">
+    <button class="back-btn" onclick="closeSection('s2')">← Voltar</button>
+    <div class="section-header">
+      <p class="section-eyebrow">II · Análise Comparativa</p>
+      <h2 class="section-title">Financiamento SAC<br><em style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gold-light)">vs Consórcio</em></h2>
+    </div>
+    <div class="comparison-grid">
+      <div class="comp-card">
+        <div class="comp-title">Financiamento SAC</div>
+        <div class="comp-item"><span class="comp-icon no">✕</span>Juros elevados</div>
+        <div class="comp-item"><span class="comp-icon no">✕</span>Alto comprometimento financeiro</div>
+        <div class="comp-item"><span class="comp-icon no">✕</span>Entrada elevada</div>
+        <div class="comp-item"><span class="comp-icon no">✕</span>Maior custo total</div>
+        <div class="comp-item"><span class="comp-icon ok">✓</span>Compra imediata</div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Consórcio</div>
+        <div class="comp-item"><span class="comp-icon ok">✓</span>Menor custo financeiro</div>
+        <div class="comp-item"><span class="comp-icon ok">✓</span>Menor parcela mensal</div>
+        <div class="comp-item"><span class="comp-icon ok">✓</span>Planejamento patrimonial</div>
+        <div class="comp-item"><span class="comp-icon ok">✓</span>Preservação de capital</div>
+        <div class="comp-item"><span class="comp-icon ok">✓</span>Flexibilidade estratégica</div>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Característica</th>
+            <th>Financiamento SAC</th>
+            <th>Consórcio</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Crédito Atualizado</td><td>R$ 1.378.108,30</td><td>R$ 1.378.108,30</td></tr>
+          <tr><td>Taxa (a.a.)</td><td>12,50%</td><td>3,23%</td></tr>
+          <tr><td>Entrada / Lance</td><td>R$ 413.432,49</td><td>R$ 489.297,35</td></tr>
+          <tr><td>1ª Parcela</td><td>R$ 12.203,92</td><td>R$ 2.889,55</td></tr>
+          <tr><td>Prazo</td><td>360 meses</td><td>210 meses</td></tr>
+          <tr class="highlight-row"><td>Custo Total</td><td>R$ 3.403.849,32</td><td>R$ 2.051.363,34</td></tr>
+          <tr><td>Juros / Taxas Totais</td><td>R$ 1.883.238,41</td><td>R$ 673.255,04</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="economy-block">
+      <div class="economy-label">Economia com o Consórcio</div>
+      <div class="economy-value">R$ 1.352.485,98</div>
+      <div class="economy-pct">39,73% menor custo total</div>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--gold)"></div>
+          Consórcio
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#8B3030"></div>
+          Financiamento SAC
+        </div>
+      </div>
+      <div style="position:relative;height:280px">
+        <canvas id="chartCompare" role="img" aria-label="Gráfico comparativo do custo total ao longo do tempo entre financiamento e consórcio. O financiamento atinge R$ 3,4 milhões enquanto o consórcio permanece em R$ 2 milhões.">Custo total: Financiamento SAC R$ 3.403.849 vs Consórcio R$ 2.051.363.</canvas>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <p class="highlight-text">"No financiamento você antecipa o sonho e paga juros por isso.<br>No consórcio você planeja patrimônio e reduz custo financeiro."</p>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section" id="s3">
+    <button class="back-btn" onclick="closeSection('s3')">← Voltar</button>
+    <div class="section-header">
+      <p class="section-eyebrow">III · Estratégia Financeira</p>
+      <h2 class="section-title">Custo de<br><em style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gold-light)">Oportunidade</em></h2>
+    </div>
+    <div style="padding:22px;background:var(--surface);border:0.5px solid var(--border);margin-bottom:24px">
+      <p style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:10px">Conceito</p>
+      <p style="font-size:14px;color:var(--text-muted);line-height:1.8">Ao não imobilizar a entrada do financiamento, esse capital permanece rendendo — reduzindo o custo real da operação.</p>
+    </div>
+    <div style="padding:20px 22px;background:var(--surface-2);border:0.5px solid var(--border-strong);margin-bottom:28px">
+      <p style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px">Cenário Base</p>
+      <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--text-muted);margin-bottom:8px">
+        <span>Capital investido</span>
+        <span style="color:var(--text)">R$ 413.432,49</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--text-muted)">
+        <span>Rentabilidade</span>
+        <span style="color:var(--text)">12% a.a. · Renda Fixa</span>
+      </div>
+    </div>
+    <div class="dashboard-grid">
+      <div class="dash-card">
+        <div class="dash-label">Rendimentos até Contemplação</div>
+        <div class="dash-value green">R$ 63.494,61</div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-label">Custo Total Financiamento</div>
+        <div class="dash-value">R$ 3.403.849,32</div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-label">Custo Real do Consórcio</div>
+        <div class="dash-value gold">R$ 1.847.641,82</div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-label">Economia Real</div>
+        <div class="dash-value green">R$ 1.556.207,50</div>
+      </div>
+    </div>
+    <div class="economy-block">
+      <div class="economy-label">Redução de Custo Real</div>
+      <div class="economy-value">45,72%</div>
+      <div class="economy-pct">quando a entrada trabalha para você</div>
+    </div>
+    <div class="highlight-box">
+      <p class="highlight-text">"Quando a entrada trabalha para você,<br>o custo real do patrimônio cai de forma inteligente."</p>
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section" id="s4">
+    <button class="back-btn" onclick="closeSection('s4')">← Voltar</button>
+    <div class="section-header">
+      <p class="section-eyebrow">IV · Preservação de Capital</p>
+      <h2 class="section-title">Compra à Vista<br><em style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gold-light)">vs Consórcio</em></h2>
+    </div>
+    <div class="pros-cons-grid">
+      <div class="comp-card">
+        <div class="comp-title">Compra à Vista</div>
+        <div class="comp-item"><span class="comp-icon no">✕</span>Descapitalização imediata</div>
+        <div class="comp-item"><span class="comp-icon no">✕</span>Perda de liquidez</div>
+        <div class="comp-item"><span class="comp-icon no">✕</span>Capital deixa de render</div>
+        <div class="comp-item"><span class="comp-icon ok">✓</span>Compra imediata</div>
+        <div class="comp-item"><span class="comp-icon ok">✓</span>Sem parcelas</div>
+        <div style="margin-top:16px;padding-top:16px;border-top:0.5px solid var(--border)">
+          <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px">Capital Descapitalizado</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--text)">R$ 1.378.108,30</div>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Consórcio (60 meses)</div>
+        <div style="margin-bottom:14px">
+          <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px">Desembolso até contemplação</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--text)">R$ 693.018,82</div>
+        </div>
+        <div>
+          <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px">Economia Preservada</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:#7BAA5A">R$ 685.089,48</div>
+        </div>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <p class="highlight-text">"O capital continua trabalhando<br>enquanto o patrimônio é construído."</p>
+    </div>
+    <div style="margin-top:28px;padding:22px;background:var(--surface);border:0.5px solid var(--border)">
+      <p style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px">Resultado do Capital Investido</p>
+      <p style="font-size:12px;color:var(--text-dim);margin-bottom:16px">Economia aplicada a 12% a.a. · 150 meses</p>
+      <div class="dashboard-grid">
+        <div class="dash-card">
+          <div class="dash-label">Juros Gerados</div>
+          <div class="dash-value green">R$ 2.362.478,25</div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-label">Patrimônio Acumulado</div>
+          <div class="dash-value gold">R$ 3.047.567,73</div>
+        </div>
+      </div>
+    </div>
+    <div class="result-big" style="margin-top:24px">
+      <div class="economy-label">Conclusão Estratégica</div>
+      <p class="highlight-text" style="margin-top:8px">"No consórcio, seu capital<br>continua trabalhando a seu favor."</p>
+    </div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section" id="s5">
+    <button class="back-btn" onclick="closeSection('s5')">← Voltar</button>
+    <div class="section-header">
+      <p class="section-eyebrow">V · Planejamento Patrimonial</p>
+      <h2 class="section-title">Estratégias<br><em style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gold-light)">Inteligentes</em></h2>
+    </div>
+    <div class="timeline">
+      <div class="timeline-phase">
+        <div class="phase-tag">Curto Prazo</div>
+        <div class="phase-title">Arbitragem Financeira</div>
+        <div class="phase-items">
+          <div class="phase-item"><div class="phase-bullet"></div>Venda de carta contemplada</div>
+          <div class="phase-item"><div class="phase-bullet"></div>Operação com ágio</div>
+          <div class="phase-item"><div class="phase-bullet"></div>Estratégia de arbitragem financeira</div>
+        </div>
+      </div>
+      <div class="timeline-phase">
+        <div class="phase-tag">Médio Prazo</div>
+        <div class="phase-title">Formação Imobiliária</div>
+        <div class="phase-items">
+          <div class="phase-item"><div class="phase-bullet"></div>Compra de imóvel para renda</div>
+          <div class="phase-item"><div class="phase-bullet"></div>Aluguel cobrindo a parcela</div>
+          <div class="phase-item"><div class="phase-bullet"></div>Formação de patrimônio imobiliário</div>
+        </div>
+      </div>
+      <div class="timeline-phase">
+        <div class="phase-tag">Longo Prazo</div>
+        <div class="phase-title">Alavancagem Patrimonial</div>
+        <div class="phase-items">
+          <div class="phase-item"><div class="phase-bullet"></div>Formação patrimonial sólida</div>
+          <div class="phase-item"><div class="phase-bullet"></div>Multiplicação de ativos</div>
+          <div class="phase-item"><div class="phase-bullet"></div>Proteção contra inflação</div>
+          <div class="phase-item"><div class="phase-bullet"></div>Alavancagem patrimonial inteligente</div>
+        </div>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <p class="highlight-text">"Uma estratégia que atravessa gerações — do<br>curto prazo à formação patrimonial definitiva."</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-mark">
+      <div class="footer-line"></div>
+      <div class="logo-diamond" style="width:6px;height:6px;background:var(--gold-dim)"></div>
+      <div class="footer-line"></div>
+    </div>
+    <p class="footer-text">Material de uso exclusivo — Evento Privado</p>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+(function(){
+  const glimmer = document.getElementById('glimmer');
+  const positions = [
+    [15,8],[28,22],[72,5],[88,18],[5,40],[95,35],[42,12],[60,28],[10,65],[85,55],
+    [35,72],[70,80],[20,88],[55,92],[90,78],[48,48],[25,55],[78,42],[62,65],[38,85]
+  ];
+  positions.forEach(([l,t], i) => {
+    const s = document.createElement('span');
+    s.style.left = l+'%'; s.style.top = t+'%';
+    s.style.setProperty('--d', (3+Math.random()*5)+'s');
+    s.style.setProperty('--del', (Math.random()*6)+'s');
+    s.style.setProperty('--op', (0.3+Math.random()*0.4).toFixed(2));
+    glimmer.appendChild(s);
+  });
+
+  window.openSection = function(id) {
+    document.getElementById('nav').style.display = 'none';
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    const sec = document.getElementById(id);
+    sec.classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+    if(id === 's2') initChart();
+  };
+  window.closeSection = function(id) {
+    document.getElementById(id).classList.remove('active');
+    document.getElementById('nav').style.display = 'flex';
+    document.getElementById('nav').style.flexDirection = 'column';
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+
+  let chartInit = false;
+  function initChart() {
+    if(chartInit) return;
+    chartInit = true;
+    const months = [];
+    for(let i=0;i<=360;i+=12) months.push(i);
+    const fin = months.map(m => m===0 ? 413432 : Math.round(413432 + (m/360)*2990416));
+    const cons = months.map(m => {
+      if(m===0) return 489297;
+      if(m>210) return Math.round(489297 + (210/360)*1562066);
+      return Math.round(489297 + (m/360)*1562066);
+    });
+    new Chart(document.getElementById('chartCompare'),{
+      type:'line',
+      data:{
+        labels: months.map(m=>m===0?'Início':m+' m'),
+        datasets:[
+          {label:'Consórcio',data:cons,borderColor:'#C5A059',backgroundColor:'rgba(197,160,89,0.06)',borderWidth:1.5,pointRadius:0,tension:0.3,fill:true,borderDash:[0]},
+          {label:'Financiamento SAC',data:fin,borderColor:'#8B3030',backgroundColor:'rgba(139,48,48,0.05)',borderWidth:1.5,pointRadius:0,tension:0.3,fill:true,borderDash:[6,3]}
+        ]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>'R$ '+ctx.raw.toLocaleString('pt-BR')}}},
+        scales:{
+          x:{grid:{color:'rgba(197,160,89,0.05)'},ticks:{color:'#5C5547',font:{size:10},maxTicksLimit:7}},
+          y:{grid:{color:'rgba(197,160,89,0.05)'},ticks:{color:'#5C5547',font:{size:10},callback:v=>'R$ '+Math.round(v/1000)+'k'}}
+        }
+      }
+    });
+  }
+})();
+</script>
+</body>
+</html>
